@@ -1,0 +1,301 @@
+<?xml version="1.0" ?>
+<robot name="edmo_assembly_3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find edmo_assembly_3_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find edmo_assembly_3_description)/urdf/edmo_assembly_3.trans" />
+<xacro:include filename="$(find edmo_assembly_3_description)/urdf/edmo_assembly_3.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.001207821669588994 0.03183223535104824 0.009531427697973608" rpy="0 0 0"/>
+    <mass value="0.03847845253485034"/>
+    <inertia ixx="3.3e-05" iyy="2.2e-05" izz="4.9e-05" ixy="-2e-06" iyz="3e-06" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="cover_1_1">
+  <inertial>
+    <origin xyz="-0.016929545310755478 -0.02470471330292899 0.008504756252304525" rpy="0 0 0"/>
+    <mass value="0.014555566232575165"/>
+    <inertia ixx="8e-06" iyy="3e-06" izz="1e-05" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.017087 -0.080154 -0.012861" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.017087 -0.080154 -0.012861" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="arm_1_1">
+  <inertial>
+    <origin xyz="0.021513589764209494 0.026646215817656083 -0.049329859620566054" rpy="0 0 0"/>
+    <mass value="0.03728860045356832"/>
+    <inertia ixx="3.7e-05" iyy="4.1e-05" izz="7.3e-05" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0225 -0.068065 -0.062065" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0225 -0.068065 -0.062065" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="straight_connector_1_1">
+  <inertial>
+    <origin xyz="4.431175758946946e-07 0.0025522929315751897 0.007885426989267698" rpy="0 0 0"/>
+    <mass value="0.007137238748366013"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.001163 -0.126204 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.001163 -0.126204 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="arm_2_1">
+  <inertial>
+    <origin xyz="0.021513589764212783 0.0265962158176552 -0.18217985962056651" rpy="0 0 0"/>
+    <mass value="0.03728860045356832"/>
+    <inertia ixx="3.7e-05" iyy="4.1e-05" izz="7.3e-05" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0225 -0.200965 -0.194965" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0225 -0.200965 -0.194965" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="cover_2_1">
+  <inertial>
+    <origin xyz="-0.016929545310752102 -0.024704713302928588 0.008504756252304296" rpy="0 0 0"/>
+    <mass value="0.014555566232575165"/>
+    <inertia ixx="8e-06" iyy="3e-06" izz="1e-05" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.017087 -0.213004 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.017087 -0.213004 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="base_link_2_1">
+  <inertial>
+    <origin xyz="0.002370821669591329 0.03347823535104821 -0.0033295723020268005" rpy="0 0 0"/>
+    <mass value="0.03847845253485034"/>
+    <inertia ixx="3.3e-05" iyy="2.2e-05" izz="4.9e-05" ixy="-2e-06" iyz="3e-06" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.001163 -0.131204 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.001163 -0.131204 -0.012911" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="straight_connector_2_1">
+  <inertial>
+    <origin xyz="4.4311757860324846e-07 0.0025522929315747733 0.007885426989267148" rpy="0 0 0"/>
+    <mass value="0.007137238748366013"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.001163 -0.259054 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/straight_connector_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.001163 -0.259054 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/straight_connector_2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="base_link_3_1">
+  <inertial>
+    <origin xyz="0.0023708216695982037 0.03347823535104755 -0.003329572302027255" rpy="0 0 0"/>
+    <mass value="0.03847845253485034"/>
+    <inertia ixx="3.3e-05" iyy="2.2e-05" izz="4.9e-05" ixy="-2e-06" iyz="3e-06" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.001163 -0.264054 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.001163 -0.264054 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/base_link_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="cover_3_1">
+  <inertial>
+    <origin xyz="-0.016929545310742148 -0.02470471330292895 0.008504756252304065" rpy="0 0 0"/>
+    <mass value="0.014555566232575165"/>
+    <inertia ixx="8e-06" iyy="3e-06" izz="1e-05" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.017087 -0.345854 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.017087 -0.345854 -0.012961" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/cover_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="arm_3_1">
+  <inertial>
+    <origin xyz="0.02151358976422113 0.026546215817649932 -0.315029859620567" rpy="0 0 0"/>
+    <mass value="0.03728860045356832"/>
+    <inertia ixx="3.7e-05" iyy="4.1e-05" izz="7.3e-05" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0225 -0.333865 -0.327865" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0225 -0.333865 -0.327865" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_assembly_3_description/meshes/arm_3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Rigid4" type="fixed">
+  <origin xyz="0.017087 0.080154 0.012861" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="cover_1_1"/>
+</joint>
+
+<joint name="Rev5" type="continuous">
+  <origin xyz="-0.0225 0.068065 0.062065" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="arm_1_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+</joint>
+
+<joint name="Rigid6" type="fixed">
+  <origin xyz="0.021337 0.058139 -0.049154" rpy="0 0 0"/>
+  <parent link="arm_1_1"/>
+  <child link="straight_connector_1_1"/>
+</joint>
+
+<joint name="Rev10" type="continuous">
+  <origin xyz="-0.021337 0.069761 0.182054" rpy="0 0 0"/>
+  <parent link="base_link_2_1"/>
+  <child link="arm_2_1"/>
+  <axis xyz="-1.0 0.0 -0.0"/>
+</joint>
+
+<joint name="Rigid11" type="fixed">
+  <origin xyz="0.01825 0.0818 0.0" rpy="0 0 0"/>
+  <parent link="base_link_2_1"/>
+  <child link="cover_2_1"/>
+</joint>
+
+<joint name="Rigid12" type="fixed">
+  <origin xyz="0.021337 0.063139 -0.049154" rpy="0 0 0"/>
+  <parent link="arm_1_1"/>
+  <child link="base_link_2_1"/>
+</joint>
+
+<joint name="Rigid13" type="fixed">
+  <origin xyz="0.021337 0.058089 -0.182004" rpy="0 0 0"/>
+  <parent link="arm_2_1"/>
+  <child link="straight_connector_2_1"/>
+</joint>
+
+<joint name="Rigid15" type="fixed">
+  <origin xyz="0.021337 0.063089 -0.182004" rpy="0 0 0"/>
+  <parent link="arm_2_1"/>
+  <child link="base_link_3_1"/>
+</joint>
+
+<joint name="Rigid16" type="fixed">
+  <origin xyz="0.01825 0.0818 0.0" rpy="0 0 0"/>
+  <parent link="base_link_3_1"/>
+  <child link="cover_3_1"/>
+</joint>
+
+<joint name="Rev17" type="continuous">
+  <origin xyz="-0.021337 0.069811 0.314904" rpy="0 0 0"/>
+  <parent link="base_link_3_1"/>
+  <child link="arm_3_1"/>
+  <axis xyz="-1.0 0.0 -0.0"/>
+</joint>
+
+</robot>
