@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<robot name="edmo_snake" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<transmission name="Rev1_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Rev1">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Rev1_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="Rev8_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Rev8">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Rev8_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="Rev13_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Rev13">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Rev13_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+</robot>
