@@ -1,0 +1,9 @@
+controller_list:
+  - name: edmo_control_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - Rev1
+      - Rev8
+      - Rev13

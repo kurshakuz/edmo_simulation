@@ -13,7 +13,6 @@
 <xacro:property name="straight_connector_x_offset" value="0.06" />
 <xacro:property name="second_arm_x_offset" value="0.16" />
 
-
 <link name="dummy">
 </link>
 
