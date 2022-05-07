@@ -8,10 +8,10 @@
         <arg name="debug" value="false"/>
     </include>
 
-    <!-- <param name="camera_description" command="$(find xacro)/xacro '$(find edmo_description)/urdf/camera.xacro'"/>
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param camera_description -urdf -model pr2" /> -->
 
-    <param name="edmo_description" command="$(find xacro)/xacro '$(find edmo_assembly_3_description)/urdf/edmo_assembly_3.xacro'"/>
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param edmo_description -urdf -model edmo" />
+    <include file="$(find edmo_sim)/launch/init_snake.launch" />
+
+    <!-- <param name="edmo_description" command="$(find xacro)/xacro '$(find edmo_assembly_3_description)/urdf/edmo_assembly_3.xacro'"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param edmo_description -urdf -model edmo" /> -->
 
 </launch>
