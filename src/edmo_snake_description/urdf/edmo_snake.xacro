@@ -5,25 +5,27 @@
 <xacro:include filename="$(find edmo_snake_description)/urdf/edmo_snake.trans" />
 <xacro:include filename="$(find edmo_snake_description)/urdf/edmo_snake.gazebo" />
 
-<xacro:property name="base_x_offset" value="0.005" />
+<xacro:property name="base_x_offset" value="0.0" />
 <xacro:property name="base_y_offset" value="0.015" />
 <xacro:property name="base_z_offset" value="0.02" />
 
 <xacro:property name="arm_x_offset" value="0.027" />
 <xacro:property name="arm_z_offset" value="0.02" />
+<xacro:property name="cover_x_offset" value="0.02" />
 <xacro:property name="cover_z_offset" value="0.02" />
 <xacro:property name="straight_connector_x_offset" value="0.06" />
-<xacro:property name="second_arm_x_offset" value="0.16" />
+<xacro:property name="second_arm_x_offset" value="0.106" />
+
+<xacro:property name="arm_x_intertia_offset" value="0.03" />
 
 <link name="dummy">
 </link>
 
 <link name="base_link">
   <inertial>
-    <origin xyz="-0.0 0.0 0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03847845253485034"/>
-    <inertia  ixx="0.000019973523403298565" ixy="0" ixz="0" iyy="0.00002704471032440412" iyz="0" izz="0.000041246465847475135" />
-    <!-- <inertia ixx="2.2e-05" iyy="3.3e-05" izz="4.9e-05" ixy="2e-06" iyz="0.0" ixz="3e-06"/> -->
+    <inertia ixx="0.000019973523403298565" ixy="0" ixz="0" iyy="0.00002704471032440412" iyz="0" izz="0.000041246465847475135" />
   </inertial>
   <visual>
     <origin xyz="-${base_x_offset} -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
@@ -40,21 +42,21 @@
   </collision>
 </link>
 
-<!-- <link name="arm_1_1">
+<link name="arm_1_1">
   <inertial>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="${arm_x_intertia_offset} 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03728860045356832"/>
-    <inertia  ixx="0.02105608333333333" ixy="0" ixz="0" iyy="0.03001933333333333" iyz="0" izz="0.04552541666666666" />
+    <inertia ixx="0.00002105608333333333" ixy="0" ixz="0" iyy="0.00003001933333333333" iyz="0" izz="0.00004552541666666666" />
   </inertial>
   <visual>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -63,19 +65,19 @@
 
 <link name="cover_1_1">
   <inertial>
-    <origin xyz="-0.0 0.0 -${cover_z_offset}" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.014555566232575165"/>
-    <inertia  ixx="0.002728125" ixy="0" ixz="0" iyy="0.0046378125" iyz="0" izz="0.0068203125" />
+    <inertia ixx="0.000002728125" ixy="0" ixz="0" iyy="0.0000046378125" iyz="0" izz="0.0000068203125" />
   </inertial>
   <visual>
-    <origin xyz="-0.0 0.0 -${cover_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-0.0 0.0 -${cover_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -86,17 +88,17 @@
   <inertial>
     <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.007137238748366013"/>
-    <inertia  ixx="0.0019556595095858954" ixy="0" ixz="0" iyy="0.0008469443550060953" iyz="0" izz="0.001416742979526397" />
+    <inertia ixx="0.0000019556595095858954" ixy="0" ixz="0" iyy="0.0000008469443550060953" iyz="0" izz="0.000001416742979526397" />
   </inertial>
   <visual>
-    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <origin xyz="-${straight_connector_x_offset+arm_x_offset} -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <origin xyz="-${straight_connector_x_offset+arm_x_offset} -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -105,61 +107,61 @@
 
 <link name="base_2_1">
   <inertial>
-    <origin xyz="-0.0 -0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03847845253485034"/>
-    <inertia  ixx="0.01972516666666667" ixy="0" ixz="0" iyy="0.026708424150187243" iyz="0" izz="0.040733590816853904" />
+    <inertia ixx="0.000019973523403298565" ixy="0" ixz="0" iyy="0.00002704471032440412" iyz="0" izz="0.000041246465847475135" />
   </inertial>
   <visual>
-    <origin xyz="-0.0 -0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/base_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-0.0 -0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/base_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
 <link name="cover_2_1">
   <inertial>
-    <origin xyz="-0.0 0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.014555566232575165"/>
-    <inertia  ixx="0.002728125" ixy="0" ixz="0" iyy="0.0046378125" iyz="0" izz="0.0068203125" />
+    <inertia ixx="0.000002728125" ixy="0" ixz="0" iyy="0.0000046378125" iyz="0" izz="0.0000068203125" />
   </inertial>
   <visual>
-    <origin xyz="-0.0 0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/cover_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-0.0 0.0 -0.0" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/cover_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
-</link> -->
+</link>
 
-<!-- <link name="arm_2_1">
+<link name="arm_2_1">
   <inertial>
-    <origin xyz="0.019407761993148254 -0.16039051620143224 0.02290733232110207" rpy="0 0 0"/>
+    <origin xyz="${arm_x_intertia_offset} 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03728860045356832"/>
-    <inertia ixx="4.1e-05" iyy="3.7e-05" izz="7.3e-05" ixy="0.0" iyz="0.0" ixz="0.0"/>
+    <inertia ixx="0.00002105608333333333" ixy="0" ixz="0" iyy="0.00003001933333333333" iyz="0" izz="0.00004552541666666666" />
   </inertial>
   <visual>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -168,87 +170,87 @@
 
 <link name="straight_connector_2_1">
   <inertial>
-    <origin xyz="0.002551839107067605 -3.6955479817100956e-07 0.007885618930935943" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.007137238748366013"/>
-    <inertia ixx="2e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+    <inertia ixx="0.0000019556595095858954" ixy="0" ixz="0" iyy="0.0000008469443550060953" iyz="0" izz="0.000001416742979526397" />
   </inertial>
   <visual>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${straight_connector_x_offset+arm_x_offset} -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/straight_connector_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${straight_connector_x_offset+arm_x_offset} -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/straight_connector_2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/straight_connector_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
 <link name="base_3_1">
   <inertial>
-    <origin xyz="0.03347778152654096 -0.00237074810681245 -0.003329380360358153" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03847845253485034"/>
-    <inertia ixx="2.2e-05" iyy="3.3e-05" izz="4.9e-05" ixy="2e-06" iyz="0.0" ixz="3e-06"/>
+    <inertia ixx="0.000019973523403298565" ixy="0" ixz="0" iyy="0.00002704471032440412" iyz="0" izz="0.000041246465847475135" />
   </inertial>
   <visual>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="0.0 -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/base_3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="0.0 -${base_y_offset} -${base_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/base_3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
 <link name="cover_3_1">
   <inertial>
-    <origin xyz="-0.024705167127435923 0.01692961887353178 0.0085049481939732" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.014555566232575165"/>
-    <inertia ixx="3e-06" iyy="8e-06" izz="1e-05" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+    <inertia ixx="0.000002728125" ixy="0" ixz="0" iyy="0.0000046378125" iyz="0" izz="0.0000068203125" />
   </inertial>
   <visual>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/cover_3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${second_arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${cover_x_offset} -${base_y_offset} -${cover_z_offset}" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://edmo_snake_description/meshes/cover_3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://edmo_snake_description/meshes/cover_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
 <link name="arm_3_1">
   <inertial>
-    <origin xyz="0.019357761993148204 -0.29324051620143254 0.022907332321102584" rpy="0 0 0"/>
+    <origin xyz="${arm_x_intertia_offset} 0.0 0.0" rpy="0 0 0"/>
     <mass value="0.03728860045356832"/>
-    <inertia ixx="4.1e-05" iyy="3.7e-05" izz="7.3e-05" ixy="0.0" iyz="0.0" ixz="0.0"/>
+    <inertia ixx="0.00002105608333333333" ixy="0" ixz="0" iyy="0.00003001933333333333" iyz="0" izz="0.00004552541666666666" />
   </inertial>
   <visual>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+    <origin xyz="-${arm_x_offset} -${base_y_offset} -${arm_z_offset}" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://edmo_snake_description/meshes/arm_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
-</link> -->
+</link>
 
 <joint name="dummy_joint" type="fixed">
   <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
@@ -256,67 +258,67 @@
   <child link="base_link"/>
 </joint>
 
-<!-- <joint name="Rev1" type="continuous">
-  <origin xyz="${arm_x_offset} 0.0 ${arm_z_offset}" rpy="0 0 0"/>
+<joint name="Rev1" type="continuous">
+  <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="arm_1_1"/>
-  <axis xyz="-0.0 1.0 -0.0"/>
+  <axis xyz="0.0 1.0 0.0"/>
 </joint>
 
 <joint name="Rigid2" type="fixed">
-  <origin xyz="0.0 -0.0 ${cover_z_offset}" rpy="0 0 0"/>
+  <origin xyz="${cover_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="cover_1_1"/>
 </joint>
 
 <joint name="Rigid3" type="fixed">
-  <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+  <origin xyz="${straight_connector_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="arm_1_1"/>
   <child link="straight_connector_1_1"/>
 </joint>
 
 <joint name="Rigid5" type="fixed">
-  <origin xyz="-${arm_x_offset} -0.0 -${arm_z_offset}" rpy="0 0 0"/>
+  <origin xyz="${second_arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="arm_1_1"/>
   <child link="base_2_1"/>
 </joint>
 
 <joint name="Rigid7" type="fixed">
-  <origin xyz="0.0 -0.0 0.0" rpy="0 0 0"/>
+  <origin xyz="${cover_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_2_1"/>
   <child link="cover_2_1"/>
-</joint> -->
+</joint>
 
-<!-- <joint name="Rev8" type="continuous">
-  <origin xyz="${second_arm_x_offset} 0.0 ${arm_z_offset}" rpy="0 0 0"/>
+<joint name="Rev8" type="continuous">
+  <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_2_1"/>
   <child link="arm_2_1"/>
-  <axis xyz="0.0 1.0 -0.0"/>
+  <axis xyz="0.0 1.0 0.0"/>
 </joint>
 
 <joint name="Rigid9" type="fixed">
-  <origin xyz="0.0 -0.0 0.0" rpy="0 0 0"/>
+  <origin xyz="${straight_connector_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="arm_2_1"/>
   <child link="straight_connector_2_1"/>
 </joint>
 
 <joint name="Rigid10" type="fixed">
-  <origin xyz="0.0 -0.0 0.0" rpy="0 0 0"/>
+  <origin xyz="${second_arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="arm_2_1"/>
   <child link="base_3_1"/>
 </joint>
 
 <joint name="Rigid12" type="fixed">
-  <origin xyz="0.0 -0.0 0.0" rpy="0 0 0"/>
+  <origin xyz="${cover_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_3_1"/>
   <child link="cover_3_1"/>
 </joint>
 
 <joint name="Rev13" type="continuous">
-  <origin xyz="${second_arm_x_offset-arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
+  <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_3_1"/>
   <child link="arm_3_1"/>
-  <axis xyz="-0.0 1.0 -0.0"/>
+  <axis xyz="0.0 1.0 0.0"/>
 </joint>
- -->
+
 </robot>
