@@ -1,6 +1,6 @@
 <launch>
 
-  <rosparam file="$(find edmo_snake_description)/launch/controller.yaml" command="load" />
+  <rosparam file="$(find edmo_sim)/config/controller.yaml" command="load" />
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/edmo_snake_controller" args="Rev1_position_controller Rev8_position_controller Rev13_position_controller joint_state_controller "/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
