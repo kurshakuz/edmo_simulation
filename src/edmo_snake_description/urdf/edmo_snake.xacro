@@ -16,6 +16,10 @@
 <xacro:property name="straight_connector_x_offset" value="0.06" />
 <xacro:property name="second_arm_x_offset" value="0.106" />
 
+<xacro:property name="motor_x_offset" value="0.018" />
+<xacro:property name="motor_y_offset" value="0.002" />
+<xacro:property name="motor_z_offset" value="0.0008" />
+
 <xacro:property name="arm_x_intertia_offset" value="0.03" />
 
 <link name="dummy">
@@ -294,6 +298,69 @@
   </collision>
 </link>
 
+<link name="motor_box_1">
+  <inertial>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <mass value="0.057"/>
+    <inertia ixx="0.0000090309375" ixy="0" ixz="0" iyy="0.000008846874999999999" iyz="0" izz="0.000014265437499999999" />
+  </inertial>
+  <visual>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="motor_box_2">
+  <inertial>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <mass value="0.057"/>
+    <inertia ixx="0.0000090309375" ixy="0" ixz="0" iyy="0.000008846874999999999" iyz="0" izz="0.000014265437499999999" />
+  </inertial>
+  <visual>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="motor_box_3">
+  <inertial>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <mass value="0.057"/>
+    <inertia ixx="0.0000090309375" ixy="0" ixz="0" iyy="0.000008846874999999999" iyz="0" izz="0.000014265437499999999" />
+  </inertial>
+  <visual>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.003 -0.058 -0.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://edmo_snake_description/meshes/motor_box_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
 <joint name="Rigid0" type="fixed">
   <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
   <parent link="dummy"/>
@@ -373,6 +440,24 @@
   <parent link="base_3_1"/>
   <child link="arm_3_1"/>
   <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Rigid14" type="fixed">
+  <origin xyz="${motor_x_offset} ${motor_y_offset} ${motor_z_offset}" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="motor_box_1"/>
+</joint>
+
+<joint name="Rigid15" type="fixed">
+  <origin xyz="${motor_x_offset} ${motor_y_offset} ${motor_z_offset}" rpy="0 0 0"/>
+  <parent link="base_2_1"/>
+  <child link="motor_box_2"/>
+</joint>
+
+<joint name="Rigid16" type="fixed">
+  <origin xyz="${motor_x_offset} ${motor_y_offset} ${motor_z_offset}" rpy="0 0 0"/>
+  <parent link="base_3_1"/>
+  <child link="motor_box_3"/>
 </joint>
 
 </robot>
