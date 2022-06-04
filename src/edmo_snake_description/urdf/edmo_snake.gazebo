@@ -13,9 +13,9 @@
 <gazebo reference="base_link">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
   <gravity>true</gravity>
 </gazebo>
@@ -23,135 +23,135 @@
 <gazebo reference="arm_1_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="cover_1_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="straight_connector_1_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="clip_connector_1_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="base_2_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="cover_2_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="arm_2_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="straight_connector_2_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="clip_connector_2_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="base_3_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="cover_3_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="arm_3_1">
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="motor_box_1">
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="motor_box_2">
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="motor_box_3">
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
-  <kd>1000000000.0</kd>
-  <mu1>10.0</mu1>
-  <mu2>10.0</mu2>
+  <kd>1.0</kd>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
