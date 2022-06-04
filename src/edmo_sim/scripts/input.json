@@ -1,0 +1,36 @@
+{
+    "name": "Robbie",
+    "frequency": 0.37,
+    "weight": 0.025,
+    "phase_bias_matrix": [
+        [
+            0.0,
+            42.0,
+            0.0
+        ],
+        [
+            -42.0,
+            0.0,
+            34.0
+        ],
+        [
+            0.0,
+            -34.0,
+            0.0
+        ]
+    ],
+    "modules": [
+        {
+            "amplitude": 31,
+            "offset": 34
+        },
+        {
+            "amplitude": 18,
+            "offset": 0
+        },
+        {
+            "amplitude": 34,
+            "offset": -45
+        }
+    ]
+}
