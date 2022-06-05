@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import Float64, String
 import math
 
-SERVOMIN = [108, 108, 108] # this is the 'minimum' pulse length count (out of 4096)
-SERVOMAX = [504, 498, 474] # this is the 'maximum' pulse length count (out of 4096)
-poti_low = [141, 141, 150]
-poti_high = [744, 744, 740]
+# SERVOMIN = [108, 108, 108] # this is the 'minimum' pulse length count (out of 4096)
+# SERVOMAX = [504, 498, 474] # this is the 'maximum' pulse length count (out of 4096)
+
+SERVOMIN = [-1.47, -1.47, -1.47] # this is the 'minimum' pulse length count (out of 4096)
+SERVOMAX = [1.47, 1.47, 1.47] # this is the 'maximum' pulse length count (out of 4096)
 
 
 def constrain(n, minn, maxn):
     return max(min(maxn, n), minn)
 
 def map_range(old_value, old_min, old_max, new_min, new_max):
-    old_range = (old_max - old_min)  
-    new_range = (new_max - new_min)  
+    old_range = (old_max - old_min)
+    new_range = (new_max - new_min)
     new_value = (((old_value - old_min) * new_range) / old_range) + new_min
     return new_value
 
 class Oscillator:
     def __init__(self, motor_num):
         self.phase = 0                     # phase of the oscillation
-        self.amplitude = 0                 # amplitude of the oscillation 
+        self.amplitude = 0                 # amplitude of the oscillation
         self.targetAmplitude = 0           # amplitude to gradually change to
         self.offset = 90                   # offset for the oscillation (in range of servo 0-180)
         self.targetOffset = 90             # added parameter to offset smoothly
@@ -44,7 +45,7 @@ class Oscillator:
 
     def zero_calib(self):
         self.calib = 0
-    
+
     def set_calib(self, val):
         self.calib = val
 
@@ -78,9 +79,12 @@ class CPGController:
             self.osc[i].update_oscillator(targetAmplitudes[i], targetOffsets[i], phaseBiases[i])
 
     def publish_positions(self):
-        pub = rospy.Publisher('chatter', String, queue_size=10)
-        rospy.init_node('talker', anonymous=True)
-        rate = rospy.Rate(10) # 10hz
+        rospy.init_node('motor_command_pub', anonymous=True)
+        rate = rospy.Rate(20) # 10hz
+
+        pub_rev_1 = rospy.Publisher('/edmo_snake_controller/Rev1_position_controller/command', Float64, queue_size=1)
+        pub_rev_8 = rospy.Publisher('/edmo_snake_controller/Rev8_position_controller/command', Float64, queue_size=1)
+        pub_rev_13 = rospy.Publisher('/edmo_snake_controller/Rev13_position_controller/command', Float64, queue_size=1)
 
         # NEED TO RECEIVE AND CHANGE VARIABLES HERE
         self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
@@ -93,7 +97,7 @@ class CPGController:
             for i in range(self.num_oscillators):
                 self.osc[i].rateOfOffset = self.c * (self.osc[i].targetOffset - self.osc[i].offset)
                 self.osc[i].offset = self.osc[i].offset + self.osc[i].rateOfOffset * (self.timeStep) / 1000.0
-                
+
                 # change amplitude for oscillator i
                 self.osc[i].rateOfAmplitude = self.a * (self.osc[i].targetAmplitude - self.osc[i].amplitude)
                 self.osc[i].amplitude = self.osc[i].amplitude + self.osc[i].rateOfAmplitude * (self.timeStep) / 1000.0
@@ -117,16 +121,19 @@ class CPGController:
 
                 # set motor to new position
                 self.osc[i].pos += self.osc[i].calib
-                self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
-                # self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
-                
-                # pwm.setPWM(i, 0, self.osc[i].angle_motor)
-                print(self.osc[i].pos)
-                # print(self.osc[i].angle_motor)
+                # self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
+                self.osc[i].angle_motor = map_range(self.osc[i].pos, -99, 99, SERVOMIN[i], SERVOMAX[i])
+                self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
+                print(self.osc[i].angle_motor)
+                if i == 0:
+                    pub_rev_1.publish(self.osc[i].angle_motor)
+                elif i == 1:
+                    pub_rev_8.publish(self.osc[i].angle_motor)
+                else:
+                    pub_rev_13.publish(self.osc[i].angle_motor)
 
-            hello_str = "hello world %s" % rospy.get_time()
+            hello_str = "%s" % rospy.get_time()
             rospy.loginfo(hello_str)
-            pub.publish(hello_str)
             rate.sleep()
 
 if __name__ == '__main__':
