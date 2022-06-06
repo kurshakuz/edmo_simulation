@@ -8,12 +8,12 @@ edmo_snake_controller:
   Rev1_position_controller:
     type: effort_controllers/JointPositionController
     joint: Rev1
-    pid: {p: 3.0, i: 1.0, d: 0.0}
+    pid: {p: 15.0, i: 0.5, d: 0.03, i_clamp_min: -200.0, i_clamp_max: 200.0}
   Rev8_position_controller:
     type: effort_controllers/JointPositionController
     joint: Rev8
-    pid: {p: 3.0, i: 1.0, d: 0.0}
+    pid: {p: 15.0, i: 0.5, d: 0.03, i_clamp_min: -200.0, i_clamp_max: 200.0}
   Rev13_position_controller:
     type: effort_controllers/JointPositionController
     joint: Rev13
-    pid: {p: 3.0, i: 1.0, d: 0.0}
+    pid: {p: 15.0, i: 0.5, d: 0.03, i_clamp_min: -200.0, i_clamp_max: 200.0}

@@ -367,11 +367,16 @@
   <child link="base_link"/>
 </joint>
 
-<joint name="Rev1" type="continuous">
+<joint name="Rev1" type="revolute">
   <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="arm_1_1"/>
   <axis xyz="0.0 1.0 0.0"/>
+  <!-- Joint limits -->
+  <limit lower="-1.47"
+        upper="1.47"
+        effort="0.5"
+        velocity="0.5"/>
 </joint>
 
 <joint name="Rigid2" type="fixed">
@@ -404,11 +409,16 @@
   <child link="cover_2_1"/>
 </joint>
 
-<joint name="Rev8" type="continuous">
+<joint name="Rev8" type="revolute">
   <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_2_1"/>
   <child link="arm_2_1"/>
   <axis xyz="0.0 1.0 0.0"/>
+  <!-- Joint limits -->
+  <limit lower="-1.47"
+        upper="1.47"
+        effort="0.5"
+        velocity="0.5"/>
 </joint>
 
 <joint name="Rigid9" type="fixed">
@@ -435,11 +445,16 @@
   <child link="cover_3_1"/>
 </joint>
 
-<joint name="Rev13" type="continuous">
+<joint name="Rev13" type="revolute">
   <origin xyz="${arm_x_offset} 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_3_1"/>
   <child link="arm_3_1"/>
   <axis xyz="0.0 1.0 0.0"/>
+  <!-- Joint limits -->
+  <limit lower="-1.47"
+        upper="1.47"
+        effort="1.0"
+        velocity="0.2"/>
 </joint>
 
 <joint name="Rigid14" type="fixed">
