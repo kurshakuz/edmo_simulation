@@ -27,8 +27,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
   <gravity>true</gravity>
 </gazebo>
@@ -37,8 +37,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -46,8 +46,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -55,8 +55,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -64,8 +64,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -73,8 +73,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -82,8 +82,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -91,8 +91,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -100,8 +100,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -109,8 +109,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -118,8 +118,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -127,8 +127,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -136,8 +136,8 @@
   <material>${body_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -145,8 +145,8 @@
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -154,8 +154,8 @@
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
@@ -163,8 +163,8 @@
   <material>${motor_color}</material>
   <kp>1000000000.0</kp>
   <kd>1.0</kd>
-  <mu1>1.0</mu1>
-  <mu2>1.0</mu2>
+  <mu1>20.0</mu1>
+  <mu2>20.0</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 

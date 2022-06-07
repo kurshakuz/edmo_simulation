@@ -373,9 +373,9 @@
   <child link="arm_1_1"/>
   <axis xyz="0.0 1.0 0.0"/>
   <!-- Joint limits -->
-  <limit lower="-1.47"
-        upper="1.47"
-        effort="0.5"
+  <limit lower="-2.00"
+        upper="2.00"
+        effort="1.0"
         velocity="0.5"/>
 </joint>
 
@@ -415,9 +415,9 @@
   <child link="arm_2_1"/>
   <axis xyz="0.0 1.0 0.0"/>
   <!-- Joint limits -->
-  <limit lower="-1.47"
-        upper="1.47"
-        effort="0.5"
+  <limit lower="-2.00"
+        upper="2.00"
+        effort="1.0"
         velocity="0.5"/>
 </joint>
 
@@ -451,10 +451,10 @@
   <child link="arm_3_1"/>
   <axis xyz="0.0 1.0 0.0"/>
   <!-- Joint limits -->
-  <limit lower="-1.47"
-        upper="1.47"
+  <limit lower="-2.00"
+        upper="2.00"
         effort="1.0"
-        velocity="0.2"/>
+        velocity="0.5"/>
 </joint>
 
 <joint name="Rigid14" type="fixed">
