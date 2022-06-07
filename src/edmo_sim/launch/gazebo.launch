@@ -10,4 +10,6 @@
 
     <include file="$(find edmo_sim)/launch/init_snake.launch" />
 
+    <!-- <node name="cpg_control" pkg="edmo_sim" type="cpg_control.py" /> -->
+
 </launch>

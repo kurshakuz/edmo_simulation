@@ -376,7 +376,7 @@
   <limit lower="-2.00"
         upper="2.00"
         effort="1.0"
-        velocity="0.5"/>
+        velocity="10.0"/>
 </joint>
 
 <joint name="Rigid2" type="fixed">
@@ -418,7 +418,7 @@
   <limit lower="-2.00"
         upper="2.00"
         effort="1.0"
-        velocity="0.5"/>
+        velocity="10.0"/>
 </joint>
 
 <joint name="Rigid9" type="fixed">
@@ -454,7 +454,7 @@
   <limit lower="-2.00"
         upper="2.00"
         effort="1.0"
-        velocity="0.5"/>
+        velocity="10.0"/>
 </joint>
 
 <joint name="Rigid14" type="fixed">

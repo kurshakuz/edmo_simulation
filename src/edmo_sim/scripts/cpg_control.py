@@ -6,8 +6,8 @@ import math
 # SERVOMIN = [108, 108, 108] # this is the 'minimum' pulse length count (out of 4096)
 # SERVOMAX = [504, 498, 474] # this is the 'maximum' pulse length count (out of 4096)
 
-SERVOMIN = [-1.47, -1.47, -1.47] # this is the 'minimum' pulse length count (out of 4096)
-SERVOMAX = [1.47, 1.47, 1.47] # this is the 'maximum' pulse length count (out of 4096)
+SERVOMIN = [-1.80, -1.80, -1.80] # this is the 'minimum' pulse length count (out of 4096)
+SERVOMAX = [1.80, 1.80, 1.80] # this is the 'maximum' pulse length count (out of 4096)
 
 
 def constrain(n, minn, maxn):
@@ -52,7 +52,10 @@ class Oscillator:
     def update_oscillator(self, targetAmplitude, targetOffset, phaseBias):
         self.targetAmplitude = targetAmplitude
         self.targetOffset = targetOffset
-        self.phaseBias = phaseBias
+        phaseBiasRad = []
+        for val in phaseBias:
+            phaseBiasRad.append((math.pi * val)/180)
+        self.phaseBias = phaseBiasRad
 
 class CPGController:
     def __init__(self):
@@ -66,8 +69,6 @@ class CPGController:
         self.c = 0.5 # adaptation rate for frequency and offset
         self.pose = [0, 0, 0]
         self.num_oscillators = len(self.pose)
-        self.left_end = -90
-        self.right_end = 90
         self.osc = []
         for i in range(3):
             self.osc.append(Oscillator(i))
@@ -80,14 +81,15 @@ class CPGController:
 
     def publish_positions(self):
         rospy.init_node('motor_command_pub', anonymous=True)
-        rate = rospy.Rate(20) # 10hz
+        rate = rospy.Rate(30) # 10hz
 
         pub_rev_1 = rospy.Publisher('/edmo_snake_controller/Rev1_position_controller/command', Float64, queue_size=1)
         pub_rev_8 = rospy.Publisher('/edmo_snake_controller/Rev8_position_controller/command', Float64, queue_size=1)
         pub_rev_13 = rospy.Publisher('/edmo_snake_controller/Rev13_position_controller/command', Float64, queue_size=1)
 
         # NEED TO RECEIVE AND CHANGE VARIABLES HERE
-        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
         while not rospy.is_shutdown():
             rateOfFrequency = self.c * (self.targetFrequency - self.frequency)
@@ -122,7 +124,7 @@ class CPGController:
                 # set motor to new position
                 self.osc[i].pos += self.osc[i].calib
                 # self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
-                self.osc[i].angle_motor = map_range(self.osc[i].pos, -99, 99, SERVOMIN[i], SERVOMAX[i])
+                self.osc[i].angle_motor = map_range(self.osc[i].pos, -100, 100, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 print(self.osc[i].angle_motor)
                 if i == 0:
