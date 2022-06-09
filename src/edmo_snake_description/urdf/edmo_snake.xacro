@@ -375,7 +375,7 @@
   <!-- Joint limits -->
   <limit lower="-2.00"
         upper="2.00"
-        effort="1.0"
+        effort="2.0"
         velocity="10.0"/>
 </joint>
 
@@ -417,7 +417,7 @@
   <!-- Joint limits -->
   <limit lower="-2.00"
         upper="2.00"
-        effort="1.0"
+        effort="2.0"
         velocity="10.0"/>
 </joint>
 
@@ -453,7 +453,7 @@
   <!-- Joint limits -->
   <limit lower="-2.00"
         upper="2.00"
-        effort="1.0"
+        effort="2.0"
         velocity="10.0"/>
 </joint>
 

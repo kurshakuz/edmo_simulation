@@ -3,11 +3,13 @@ import rospy
 from std_msgs.msg import Float64, String
 import math
 
-# SERVOMIN = [108, 108, 108] # this is the 'minimum' pulse length count (out of 4096)
-# SERVOMAX = [504, 498, 474] # this is the 'maximum' pulse length count (out of 4096)
+import json
+from time import sleep
 
-SERVOMIN = [-1.80, -1.80, -1.80] # this is the 'minimum' pulse length count (out of 4096)
-SERVOMAX = [1.80, 1.80, 1.80] # this is the 'maximum' pulse length count (out of 4096)
+from core.TCPClient import TCPClient
+
+SERVOMIN = [-1.75, -1.5, -1.75] # this is the 'minimum' pulse length count (out of 4096)
+SERVOMAX = [1.75, 1.5, 1.75] # this is the 'maximum' pulse length count (out of 4096)
 
 
 def constrain(n, minn, maxn):
@@ -18,6 +20,20 @@ def map_range(old_value, old_min, old_max, new_min, new_max):
     new_range = (new_max - new_min)
     new_value = (((old_value - old_min) * new_range) / old_range) + new_min
     return new_value
+
+class SimulatorServerConnector():
+    def __init__(self):
+        self.tcp_client = TCPClient()
+
+    def connect(self, host="192.168.114.222", port=65343):
+        connection_successful = self.tcp_client.connect(host, port)
+
+        if not connection_successful:
+            print("Connection to server could not be established")
+            return
+
+    def register_rcv_listener(self, fnct):
+        self.tcp_client.add_received_message_listener(lambda host, port, msg: fnct(json.loads(msg)))
 
 class Oscillator:
     def __init__(self, motor_num):
@@ -35,12 +51,14 @@ class Oscillator:
         if motor_num == 0:
             self.coupling = [0, 1, 0]
             self.set_calib(-3)
+            # self.set_calib(-10)
         elif motor_num == 1:
             self.coupling = [1, 0, 1]
             self.set_calib(-4)
         else:
             self.coupling = [0, 1, 0]
             self.set_calib(-10)
+            # self.set_calib(-3)
         self.angle_motor = 0               # mapped motor value
 
     def zero_calib(self):
@@ -49,13 +67,17 @@ class Oscillator:
     def set_calib(self, val):
         self.calib = val
 
-    def update_oscillator(self, targetAmplitude, targetOffset, phaseBias):
+    def update_oscillator(self, targetAmplitude, targetOffset, phaseBias, convert=True):
         self.targetAmplitude = targetAmplitude
         self.targetOffset = targetOffset
         phaseBiasRad = []
         for val in phaseBias:
-            phaseBiasRad.append((math.pi * val)/180)
+            if convert:
+                phaseBiasRad.append((math.pi * val)/180)
+            else:
+                phaseBiasRad.append(val)
         self.phaseBias = phaseBiasRad
+        return self.targetAmplitude, self.targetOffset, self.phaseBias
 
 class CPGController:
     def __init__(self):
@@ -73,11 +95,29 @@ class CPGController:
         for i in range(3):
             self.osc.append(Oscillator(i))
 
-    def update_controller(self, freq, weight, targetAmplitudes, targetOffsets, phaseBiases):
-        self.frequency = freq
+        self.connector = SimulatorServerConnector()
+        self.connector.register_rcv_listener(self.update_from_json)
+        self.connector.connect()
+        self.received_json = False
+
+    def update_from_json(self, msg):
+        self.received_json = True
+        print(msg['name'])
+        targetAmplitudes = []
+        targetOffsets = []
+        for i in range(len(msg['modules'])):
+            targetAmplitudes.append(msg['modules'][i]['amplitude'])
+            targetOffsets.append(msg['modules'][i]['offset'])
+        self.update_controller(msg['frequency'], msg['weight'], targetAmplitudes, targetOffsets, msg['phase_bias_matrix'])
+
+    def update_controller(self, freq, weight, targetAmplitudes, targetOffsets, phaseBiases, convert=True):
+        self.targetFrequency = freq
         self.w = weight
+        oscillator_values = []
         for i in range(self.num_oscillators):
-            self.osc[i].update_oscillator(targetAmplitudes[i], targetOffsets[i], phaseBiases[i])
+            oscillator_value = self.osc[i].update_oscillator(targetAmplitudes[i], targetOffsets[i], phaseBiases[i], convert=convert)
+            oscillator_values.append(oscillator_value)
+        print('New params: ', self.targetFrequency, self.w, oscillator_values)
 
     def publish_positions(self):
         rospy.init_node('motor_command_pub', anonymous=True)
@@ -89,8 +129,9 @@ class CPGController:
 
         # NEED TO RECEIVE AND CHANGE VARIABLES HERE
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-
+        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+        self.update_controller(freq = 0.0, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
+        
         while not rospy.is_shutdown():
             rateOfFrequency = self.c * (self.targetFrequency - self.frequency)
             self.frequency = self.frequency + rateOfFrequency * (self.timeStep) / 1000.0
@@ -126,16 +167,16 @@ class CPGController:
                 # self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = map_range(self.osc[i].pos, -100, 100, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
-                print(self.osc[i].angle_motor)
-                if i == 0:
-                    pub_rev_1.publish(self.osc[i].angle_motor)
-                elif i == 1:
-                    pub_rev_8.publish(self.osc[i].angle_motor)
-                else:
-                    pub_rev_13.publish(self.osc[i].angle_motor)
+                rospy.loginfo(self.osc[i].angle_motor)
 
-            hello_str = "%s" % rospy.get_time()
-            rospy.loginfo(hello_str)
+                if self.received_json:
+                    if i == 0:
+                        pub_rev_13.publish(self.osc[i].angle_motor)
+                    elif i == 1:
+                        pub_rev_8.publish(self.osc[i].angle_motor)
+                    else:
+                        pub_rev_1.publish(self.osc[i].angle_motor)
+
             rate.sleep()
 
 if __name__ == '__main__':
@@ -143,4 +184,5 @@ if __name__ == '__main__':
     try:
         controller.publish_positions()
     except rospy.ROSInterruptException:
+        controller.connector
         pass
