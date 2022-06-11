@@ -80,11 +80,15 @@ class CPGController:
         pub_rev_1 = rospy.Publisher('/edmo_snake_controller/Rev1_position_controller/command', Float64, queue_size=1)
         pub_rev_8 = rospy.Publisher('/edmo_snake_controller/Rev8_position_controller/command', Float64, queue_size=1)
         pub_rev_13 = rospy.Publisher('/edmo_snake_controller/Rev13_position_controller/command', Float64, queue_size=1)
-
-        # NEED TO RECEIVE AND CHANGE VARIABLES HERE
+        
+        # sample configuration
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-        self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
+
+        # fastest configuration
+        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+
+        # zero position
+        # self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
 
         while not rospy.is_shutdown():
             rateOfFrequency = self.c * (self.targetFrequency - self.frequency)
