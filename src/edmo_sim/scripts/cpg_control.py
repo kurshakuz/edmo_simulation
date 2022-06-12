@@ -49,7 +49,7 @@ class Oscillator:
         return self.targetAmplitude, self.targetOffset, self.phaseBias
 
 class CPGController:
-    def __init__(self):
+    def __init__(self, node_name, pub_topic_1, pub_topic_2, pub_topic_3):
         self.frequency = 0.5
         self.rateOfFrequency = 0
         self.targetFrequency = 0.5
@@ -74,13 +74,13 @@ class CPGController:
         print('New params: ', self.targetFrequency, self.w, oscillator_values)
 
     def publish_positions(self):
-        rospy.init_node('motor_command_pub', anonymous=True)
+        rospy.init_node(node_name, anonymous=True)
         rate = rospy.Rate(40) # 10hz
 
-        pub_rev_1 = rospy.Publisher('/edmo_snake_controller/Rev1_position_controller/command', Float64, queue_size=1)
-        pub_rev_8 = rospy.Publisher('/edmo_snake_controller/Rev8_position_controller/command', Float64, queue_size=1)
-        pub_rev_13 = rospy.Publisher('/edmo_snake_controller/Rev13_position_controller/command', Float64, queue_size=1)
-        
+        pub_rev_1 = rospy.Publisher(pub_topic_1, Float64, queue_size=1)
+        pub_rev_8 = rospy.Publisher(pub_topic_2, Float64, queue_size=1)
+        pub_rev_13 = rospy.Publisher(pub_topic_3, Float64, queue_size=1)
+
         # sample configuration
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
@@ -135,7 +135,11 @@ class CPGController:
             rate.sleep()
 
 if __name__ == '__main__':
-    controller = CPGController()
+    node_name = 'motor_command_pub'
+    pub_topic_1 = '/edmo_snake_controller/Rev1_position_controller/command'
+    pub_topic_2 = '/edmo_snake_controller/Rev8_position_controller/command'
+    pub_topic_3 = '/edmo_snake_controller/Rev13_position_controller/command'
+    controller = CPGController(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
     try:
         controller.publish_positions()
     except rospy.ROSInterruptException:

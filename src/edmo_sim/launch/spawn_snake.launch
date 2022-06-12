@@ -3,7 +3,7 @@
     <include file="$(find edmo_sim)/launch/spawn_xacro.launch">
         <arg name="x" value="0.0" />
         <arg name="y" value="0.0" />
-        <arg name="z" value="0.2" />
+        <arg name="z" value="0.05" />
         <arg name="xacro_robot_file" value="$(find edmo_snake_description)/urdf/edmo_snake.xacro" />
         <arg name="robot_name" value="snake" />
     </include>

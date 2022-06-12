@@ -23,8 +23,8 @@ class SimulatorServerConnector():
         self.tcp_client.add_received_message_listener(lambda host, port, msg: fnct(json.loads(msg)))
 
 class CPGControllerConnected(CPGController):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, node_name, pub_topic_1, pub_topic_2, pub_topic_3):
+        super().__init__(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
         self.connector.connect()
@@ -105,7 +105,11 @@ class CPGControllerConnected(CPGController):
             rate.sleep()
 
 if __name__ == '__main__':
-    controller = CPGControllerConnected()
+    node_name = 'motor_command_pub'
+    pub_topic_1 = '/edmo_snake_controller/Rev1_position_controller/command'
+    pub_topic_2 = '/edmo_snake_controller/Rev8_position_controller/command'
+    pub_topic_3 = '/edmo_snake_controller/Rev13_position_controller/command'
+    controller = CPGControllerConnected(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
     try:
         controller.publish_positions()
     except rospy.ROSInterruptException:

@@ -1,0 +1,18 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!-- sim time as max as possible -->
+        <arg name="world_name" value="$(find edmo_sim)/worlds/empty.world" />
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <!-- headless -->
+        <arg name="gui" value="true"/>
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <include file="$(find edmo_sim)/launch/init_snake.launch" />
+
+    <node name="cpg_control" pkg="edmo_sim" type="cpg_control.py" />
+    <node name="position_listener" pkg="edmo_sim" type="position_listener.py" />
+
+</launch>

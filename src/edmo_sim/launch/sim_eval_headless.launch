@@ -4,10 +4,5 @@
   	<env name="GAZEBO_MASTER_URI" value="http://localhost:11345"/>
   	<node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen"
 	args=" -e ode $(arg world_name)" />
-	
-	<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" 
-	output="screen"/>
-
-    <include file="$(find edmo_sim)/launch/init_snake.launch" />
   </group>
 </launch>
