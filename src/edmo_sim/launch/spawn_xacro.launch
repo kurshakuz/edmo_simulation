@@ -10,6 +10,6 @@
     <param name="robot_description" command="$(find xacro)/xacro '$(arg xacro_robot_file)' robot_prefix:=$(arg prefix)" />
 
     <node name="urdf_spawner_snake" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-    args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name) -param robot_description" />
+    args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name) -param robot_description -gazebo_namespace /$(arg prefix)/gazebo/" />
 
 </launch>

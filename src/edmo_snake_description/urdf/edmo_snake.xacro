@@ -480,7 +480,7 @@
 
 <gazebo>
   <plugin name="control" filename="libgazebo_ros_control.so">
-    <robotNamespace>${robot_prefix}/edmo_snake_controller</robotNamespace>
+    <robotNamespace>/${robot_prefix}/edmo_snake_controller</robotNamespace>
   </plugin>
 </gazebo>
 
@@ -489,7 +489,7 @@
     <alwaysOn>true</alwaysOn>
     <updateRate>1.0</updateRate>
     <bodyName>base_link</bodyName>
-    <topicName>${robot_prefix}/edmo_snake/state</topicName>
+    <topicName>/${robot_prefix}/edmo_snake/state</topicName>
     <gaussianNoise>0.0</gaussianNoise>
     <frameName>world</frameName>
     <xyzOffsets>0 0 0</xyzOffsets>
