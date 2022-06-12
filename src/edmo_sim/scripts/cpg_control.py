@@ -27,8 +27,7 @@ class Oscillator:
         self.rateOfOffset = 0              # current rate of change of the offset parameter
         self.pos = 0                       # oscillator output = servos angular position
         self.phaseBias = [0, 0, 0]         # controls pairwise coupling phase bias
-        # controls topology of the network
-        if motor_num == 0:
+        if motor_num == 0:                 # controls topology of the network
             self.coupling = [0, 1, 0]
         elif motor_num == 1:
             self.coupling = [1, 0, 1]
@@ -136,9 +135,9 @@ class CPGController:
 
 if __name__ == '__main__':
     node_name = 'motor_command_pub'
-    pub_topic_1 = '/edmo_snake_controller/Rev1_position_controller/command'
-    pub_topic_2 = '/edmo_snake_controller/Rev8_position_controller/command'
-    pub_topic_3 = '/edmo_snake_controller/Rev13_position_controller/command'
+    pub_topic_1 = 'r1/edmo_snake_controller/Rev1_position_controller/command'
+    pub_topic_2 = 'r1/edmo_snake_controller/Rev8_position_controller/command'
+    pub_topic_3 = 'r1/edmo_snake_controller/Rev13_position_controller/command'
     controller = CPGController(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
     try:
         controller.publish_positions()

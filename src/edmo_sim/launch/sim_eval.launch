@@ -1,13 +1,16 @@
 <launch>
-  <arg name="world_name" value="$(find edmo_sim)/worlds/empty_accelerated.world"/>
+  <arg name="world_name" value="$(find edmo_sim)/worlds/empty.world"/>
   <group>
   	<env name="GAZEBO_MASTER_URI" value="http://localhost:11345"/>
   	<node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen"
 	args=" -e ode $(arg world_name)" />
 	
-	<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" 
-	output="screen"/>
+	<!-- <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" 
+	output="screen"/> -->
 
-    <include file="$(find edmo_sim)/launch/init_snake.launch" />
+    <include file="$(find edmo_sim)/launch/init_snake.launch">
+      <arg name="prefix" value="r1" />
+    </include>
+
   </group>
 </launch>

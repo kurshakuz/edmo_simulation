@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-    <include file="$(find edmo_sim)/launch/spawn_snake.launch" />
-    <include file="$(find edmo_sim)/launch/controller.launch" />
+    <arg name="prefix"/>
+    <include file="$(find edmo_sim)/launch/spawn_snake.launch" >
+      <arg name="prefix" value="$(arg prefix)" />
+    </include>
+    <include file="$(find edmo_sim)/launch/controller.launch" >
+        <arg name="prefix" value="$(arg prefix)" />
+    </include>
 </launch>

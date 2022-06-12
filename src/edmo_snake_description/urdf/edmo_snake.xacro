@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <robot name="edmo_snake" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+<xacro:arg name="robot_prefix" default="" />
+<xacro:property name="robot_prefix" value="$(arg robot_prefix)" />
+
 <xacro:include filename="$(find edmo_snake_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find edmo_snake_description)/urdf/edmo_snake.trans" />
 <xacro:include filename="$(find edmo_snake_description)/urdf/edmo_snake.gazebo" />
@@ -474,5 +477,24 @@
   <parent link="base_3_1"/>
   <child link="motor_box_3"/>
 </joint>
+
+<gazebo>
+  <plugin name="control" filename="libgazebo_ros_control.so">
+    <robotNamespace>${robot_prefix}/edmo_snake_controller</robotNamespace>
+  </plugin>
+</gazebo>
+
+<gazebo>
+  <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+    <alwaysOn>true</alwaysOn>
+    <updateRate>1.0</updateRate>
+    <bodyName>base_link</bodyName>
+    <topicName>${robot_prefix}/edmo_snake/state</topicName>
+    <gaussianNoise>0.0</gaussianNoise>
+    <frameName>world</frameName>
+    <xyzOffsets>0 0 0</xyzOffsets>
+    <rpyOffsets>0 0 0</rpyOffsets>
+  </plugin>
+</gazebo>
 
 </robot>
