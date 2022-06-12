@@ -1,6 +1,10 @@
 <launch>
     <arg name="world_name" value="$(find edmo_sim)/worlds/empty.world"/>
-    <group ns="r1">
+    <arg name="robot_1" value="edmo1" />
+    <arg name="robot_2" value="edmo2" />
+
+    <group ns="$(arg robot_1)">
+        <remap from="/clock" to="/$(arg robot_1)_clock"/>
         <env name="GAZEBO_MASTER_URI" value="http://localhost:11345"/>
         <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen"
         args=" -e ode $(arg world_name)" />
@@ -9,11 +13,16 @@
         output="screen"/>
 
         <include file="$(find edmo_sim)/launch/init_snake.launch">
-        <arg name="prefix" value="r1" />
+            <arg name="prefix" value="$(arg robot_1)" />
         </include>
+
+        <node name="cpg_control" pkg="edmo_sim" type="cpg_control.py">
+            <remap from="clock" to="/$(arg robot_1)_clock"/> 
+        </node>
     </group>
 
-    <group ns="r2">
+    <group ns="$(arg robot_2)">
+        <remap from="/clock" to="/$(arg robot_2)_clock"/>
         <env name="GAZEBO_MASTER_URI" value="http://localhost:11346"/>
         <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen"
         args=" -e ode $(arg world_name)" />
@@ -22,7 +31,12 @@
         output="screen"/>
 
         <include file="$(find edmo_sim)/launch/init_snake.launch">
-        <arg name="prefix" value="r2" />
+            <arg name="prefix" value="$(arg robot_2)" />
         </include>
+
+        <node name="cpg_control" pkg="edmo_sim" type="cpg_control.py">
+            <remap from="clock" to="/$(arg robot_2)_clock"/> 
+        </node>
+
     </group>
 </launch>

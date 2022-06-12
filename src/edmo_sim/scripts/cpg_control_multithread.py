@@ -48,7 +48,7 @@ class Oscillator:
         return self.targetAmplitude, self.targetOffset, self.phaseBias
 
 class CPGController:
-    def __init__(self, node_name, pub_topic_1, pub_topic_2, pub_topic_3):
+    def __init__(self, publishers):
         self.frequency = 0.5
         self.rateOfFrequency = 0
         self.targetFrequency = 0.5
@@ -62,6 +62,11 @@ class CPGController:
         self.osc = []
         for i in range(3):
             self.osc.append(Oscillator(i))
+        
+        self.publisher_1 = publishers[0]
+        self.publisher_2 = publishers[1]
+        self.publisher_3 = publishers[2]
+        self.rate = rospy.Rate(40)
 
     def update_controller(self, freq, weight, targetAmplitudes, targetOffsets, phaseBiases, convert=True):
         self.targetFrequency = freq
@@ -73,18 +78,11 @@ class CPGController:
         print('New params: ', self.targetFrequency, self.w, oscillator_values)
 
     def publish_positions(self):
-        rospy.init_node(node_name, anonymous=True)
-        rate = rospy.Rate(40) # 10hz
-
-        pub_rev_1 = rospy.Publisher(pub_topic_1, Float64, queue_size=1)
-        pub_rev_8 = rospy.Publisher(pub_topic_2, Float64, queue_size=1)
-        pub_rev_13 = rospy.Publisher(pub_topic_3, Float64, queue_size=1)
-
         # sample configuration
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
         # fastest configuration
-        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
         # zero position
         # self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
@@ -125,21 +123,22 @@ class CPGController:
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 # print(self.osc[i].angle_motor)
                 if i == 0:
-                    pub_rev_13.publish(self.osc[i].angle_motor)
+                    self.publisher_1.sendPosition(self.osc[i].angle_motor)
+                    self.publisher_1.publish()
                 elif i == 1:
-                    pub_rev_8.publish(self.osc[i].angle_motor)
+                    self.publisher_2.sendPosition(self.osc[i].angle_motor)
                 else:
-                    pub_rev_1.publish(self.osc[i].angle_motor)
+                    self.publisher_3.sendPosition(self.osc[i].angle_motor)
 
-            rate.sleep()
+            self.rate.sleep()
 
 if __name__ == '__main__':
     node_name = 'motor_command_pub'
-    pub_topic_1 = 'edmo_snake_controller/Rev1_position_controller/command'
-    pub_topic_2 = 'edmo_snake_controller/Rev8_position_controller/command'
-    pub_topic_3 = 'edmo_snake_controller/Rev13_position_controller/command'
-    controller = CPGController(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
-    try:
-        controller.publish_positions()
-    except rospy.ROSInterruptException:
-        pass
+    pub_topic_1 = 'r1/edmo_snake_controller/Rev1_position_controller/command'
+    pub_topic_2 = 'r1/edmo_snake_controller/Rev8_position_controller/command'
+    pub_topic_3 = 'r1/edmo_snake_controller/Rev13_position_controller/command'
+    controller = CPGController(pub_topic_1, pub_topic_2, pub_topic_3, node_name)
+    # try:
+    controller.publish_positions()
+    # except rospy.ROSInterruptException:
+    #     pass
