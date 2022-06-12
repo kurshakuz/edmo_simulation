@@ -6,7 +6,7 @@
 
 <gazebo>
   <plugin name="control" filename="libgazebo_ros_control.so">
-    <robotNamespace>/edmo_snake_controller</robotNamespace>
+    <robotNamespace>edmo_snake_controller</robotNamespace>
   </plugin>
 </gazebo>
 
