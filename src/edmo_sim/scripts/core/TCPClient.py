@@ -16,9 +16,9 @@ class TCPClient(TCPCommunication):
             self.tcp_socket = server_socket
 
 
-            self.sever_th = threading.Thread(target=self.tcp_client_concurrency)
-            self.sever_th.daemon = True
-            self.sever_th.start()
+            self.client_th = threading.Thread(target=self.tcp_client_concurrency)
+            self.client_th.daemon = True
+            self.client_th.start()
             msg = 'TCP server are listening to:%s\n' % str(port)
 
             return True
@@ -52,3 +52,6 @@ class TCPClient(TCPCommunication):
             self.tcp_socket.sendall(msg)
         else:
             print("Trying to send a message without established connection")
+
+    def connection_established(self) -> bool:
+        return bool(self.tcp_socket and not self.tcp_socket.is_closed())

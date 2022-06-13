@@ -7,13 +7,13 @@ from core.TCPCommunication import TCPCommunication
 
 
 class TCPServer(TCPCommunication):
-    def __init__(self):
+    def __init__(self, name = "unnamed"):
         super().__init__()
-
+        self.name = name
         self.client_socket_list = []
 
     def start(self, port : int):
-        print("Start TCP Server")
+        print(f"Start TCP Server {self.name}")
         self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcp_socket.setblocking(False)
@@ -24,9 +24,10 @@ class TCPServer(TCPCommunication):
             print(ret)
         else:
             self.tcp_socket.listen()
-            self.sever_th = threading.Thread(target=self.tcp_server_concurrency)
-            self.sever_th.start()
-            print('TCP server are listening to:%s\n' % str(port))
+            self.server_th = threading.Thread(target=self.tcp_server_concurrency)
+            self.server_th.daemon = True
+            self.server_th.start()
+            print(f'TCP server {self.name} is listening to: %s\n' % str(port))
 
     def tcp_server_concurrency(self):
         while True:
@@ -38,7 +39,7 @@ class TCPServer(TCPCommunication):
                 client_socket.setblocking(False)
                 self.client_socket_list.append((client_socket, client_address))
                 self.broadcast_connection_established(client_address[0], client_address[1])
-                print(f"Client {client_address} connected")
+                print(f"Client {client_address} connected to {self.name}")
             for client, address in self.client_socket_list:
                 try:
                     recv_msg = client.recv(8096)
@@ -47,13 +48,13 @@ class TCPServer(TCPCommunication):
                     if recv_msg:
                         for msg in recv_msg.split(";;;"):
                             if msg:
-                                print(f"Received msg: {msg}")
+                                print(f"{self.name} received msg from {address}: {msg}")
                                 self.broadcast_received_msg(address[0], address[1], msg)
                     else:
                         client.close()
                         self.client_socket_list.remove((client, address))
                 except ConnectionResetError:
-                    print(f"The connection to client {address[0]} {address[1]} has been terminated")
+                    print(f"The connection from client {address[0]} {address[1]} to {self.name} has been terminated")
                     client.close()
                     self.client_socket_list.remove((client, address))
                 except BlockingIOError as ret:
@@ -65,12 +66,12 @@ class TCPServer(TCPCommunication):
             for client, address in self.client_socket_list:
                 client.close()
             self.tcp_socket.close()
-            print('TCP disconnect!\n')
+            print(f'TCP disconnect {self.name}!\n')
         except Exception as ret:
             print(ret)
 
         try:
-            stopThreading.stop_thread(self.sever_th)
+            stopThreading.stop_thread(self.server_th)
         except Exception as e:
             print(e)
         try:

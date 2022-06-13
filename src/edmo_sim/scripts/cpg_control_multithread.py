@@ -62,7 +62,7 @@ class CPGController:
         self.osc = []
         for i in range(3):
             self.osc.append(Oscillator(i))
-        
+
         self.publisher_1 = publishers[0]
         self.publisher_2 = publishers[1]
         self.publisher_3 = publishers[2]

@@ -63,6 +63,13 @@ class CPGController:
         for i in range(3):
             self.osc.append(Oscillator(i))
 
+        rospy.init_node(node_name, anonymous=True)
+        self.rate = rospy.Rate(40) # 10hz
+
+        self.pub_rev_1 = rospy.Publisher(pub_topic_1, Float64, queue_size=1)
+        self.pub_rev_8 = rospy.Publisher(pub_topic_2, Float64, queue_size=1)
+        self.pub_rev_13 = rospy.Publisher(pub_topic_3, Float64, queue_size=1)
+
     def update_controller(self, freq, weight, targetAmplitudes, targetOffsets, phaseBiases, convert=True):
         self.targetFrequency = freq
         self.w = weight
@@ -73,13 +80,6 @@ class CPGController:
         print('New params: ', self.targetFrequency, self.w, oscillator_values)
 
     def publish_positions(self):
-        rospy.init_node(node_name, anonymous=True)
-        rate = rospy.Rate(40) # 10hz
-
-        pub_rev_1 = rospy.Publisher(pub_topic_1, Float64, queue_size=1)
-        pub_rev_8 = rospy.Publisher(pub_topic_2, Float64, queue_size=1)
-        pub_rev_13 = rospy.Publisher(pub_topic_3, Float64, queue_size=1)
-
         # sample configuration
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
@@ -125,13 +125,13 @@ class CPGController:
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 # print(self.osc[i].angle_motor)
                 if i == 0:
-                    pub_rev_13.publish(self.osc[i].angle_motor)
+                    self.pub_rev_13.publish(self.osc[i].angle_motor)
                 elif i == 1:
-                    pub_rev_8.publish(self.osc[i].angle_motor)
+                    self.pub_rev_8.publish(self.osc[i].angle_motor)
                 else:
-                    pub_rev_1.publish(self.osc[i].angle_motor)
+                    self.pub_rev_1.publish(self.osc[i].angle_motor)
 
-            rate.sleep()
+            self.rate.sleep()
 
 if __name__ == '__main__':
     node_name = 'motor_command_pub'

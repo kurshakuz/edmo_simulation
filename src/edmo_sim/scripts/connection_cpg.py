@@ -5,22 +5,7 @@ import math
 import json
 
 from cpg_control import SERVOMIN, SERVOMAX, constrain, map_range, Oscillator, CPGController
-from core.TCPClient import TCPClient
-
-class SimulatorServerConnector():
-    def __init__(self):
-        self.tcp_client = TCPClient()
-
-    # 192.168.114.222
-    def connect(self, host="localhost", port=65343):
-        connection_successful = self.tcp_client.connect(host, port)
-
-        if not connection_successful:
-            print("Connection to server could not be established")
-            return
-
-    def register_rcv_listener(self, fnct):
-        self.tcp_client.add_received_message_listener(lambda host, port, msg: fnct(json.loads(msg)))
+from core.SimulatorServerConnector import SimulatorServerConnector
 
 class CPGControllerConnected(CPGController):
     def __init__(self, node_name, pub_topic_1, pub_topic_2, pub_topic_3):
@@ -37,17 +22,10 @@ class CPGControllerConnected(CPGController):
         targetOffsets = []
         for i in range(len(msg['modules'])):
             targetAmplitudes.append(msg['modules'][i]['amplitude'])
-            targetOffsets.append(90+msg['modules'][i]['offset'])
+            targetOffsets.append(msg['modules'][i]['offset'])
         self.update_controller(msg['frequency'], msg['weight'], targetAmplitudes, targetOffsets, msg['phase_bias_matrix'])
 
     def publish_positions(self):
-        rospy.init_node('motor_command_pub', anonymous=True)
-        rate = rospy.Rate(40) # 10hz
-
-        pub_rev_1 = rospy.Publisher('/edmo_snake_controller/Rev1_position_controller/command', Float64, queue_size=1)
-        pub_rev_8 = rospy.Publisher('/edmo_snake_controller/Rev8_position_controller/command', Float64, queue_size=1)
-        pub_rev_13 = rospy.Publisher('/edmo_snake_controller/Rev13_position_controller/command', Float64, queue_size=1)
-
         # sample configuration
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
@@ -96,19 +74,19 @@ class CPGControllerConnected(CPGController):
                 # print(self.osc[i].angle_motor)
                 if self.received_json:
                     if i == 0:
-                        pub_rev_13.publish(self.osc[i].angle_motor)
+                        self.pub_rev_13.publish(self.osc[i].angle_motor)
                     elif i == 1:
-                        pub_rev_8.publish(self.osc[i].angle_motor)
+                        self.pub_rev_8.publish(self.osc[i].angle_motor)
                     else:
-                        pub_rev_1.publish(self.osc[i].angle_motor)
+                        self.pub_rev_1.publish(self.osc[i].angle_motor)
 
-            rate.sleep()
+            self.rate.sleep()
 
 if __name__ == '__main__':
     node_name = 'motor_command_pub'
-    pub_topic_1 = '/edmo_snake_controller/Rev1_position_controller/command'
-    pub_topic_2 = '/edmo_snake_controller/Rev8_position_controller/command'
-    pub_topic_3 = '/edmo_snake_controller/Rev13_position_controller/command'
+    pub_topic_1 = 'edmo_snake_controller/Rev1_position_controller/command'
+    pub_topic_2 = 'edmo_snake_controller/Rev8_position_controller/command'
+    pub_topic_3 = 'edmo_snake_controller/Rev13_position_controller/command'
     controller = CPGControllerConnected(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
     try:
         controller.publish_positions()
