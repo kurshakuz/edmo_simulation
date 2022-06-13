@@ -15,10 +15,13 @@ class SimulatorServerConnector():
             print("Connection to server could not be established")
             return
 
+    # def register_rcv_listener(self, fnct):
+    #     def callback(host, port, msg):
+    #         fnct(json.loads(msg))
+    #     self.tcp_client.add_received_message_listener(callback)
+
     def register_rcv_listener(self, fnct):
-        def callback(host, port, msg):
-            fnct(json.loads(msg))
-        self.tcp_client.add_received_message_listener(callback)
+        self.tcp_client.add_received_message_listener(lambda host, port, msg: fnct(json.loads(msg)))
 
     def respond_result(self, sim_task_id, result):
         self.tcp_client.send_text(json.dumps({'sim_task_id': sim_task_id, 'fitness': result}))
