@@ -11,6 +11,7 @@ class TCPClient(TCPCommunication):
         self.tcp_socket = None
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            server_socket.settimeout(None)
             server_socket.connect((host, port))
             self.send_text("Connection established")
             self.tcp_socket = server_socket

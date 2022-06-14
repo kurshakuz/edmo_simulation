@@ -12,9 +12,13 @@ class TCPServer(TCPCommunication):
         self.name = name
         self.client_socket_list = []
 
+    def num_clients(self):
+        return len(self.client_socket_list)
+
     def start(self, port : int):
         print(f"Start TCP Server {self.name}")
         self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcp_socket.settimeout(None)
         self.tcp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcp_socket.setblocking(False)
         try:
