@@ -30,12 +30,12 @@ class CPGControllerConnected(CPGController):
         # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
         # fastest configuration
-        self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
+        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
 
         # zero position
         # self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
 
-        self.received_json = True
+        # self.received_json = True
 
         while not rospy.is_shutdown():
             rateOfFrequency = self.c * (self.targetFrequency - self.frequency)
@@ -69,6 +69,7 @@ class CPGControllerConnected(CPGController):
 
                 # set motor to new position
                 # print(self.osc[i].pos)
+                self.osc[i].pos += self.osc[i].calib
                 self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 # print(self.osc[i].angle_motor)

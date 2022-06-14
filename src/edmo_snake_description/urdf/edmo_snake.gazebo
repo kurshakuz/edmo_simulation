@@ -6,7 +6,7 @@
 
 <gazebo reference="base_link">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -16,7 +16,7 @@
 
 <gazebo reference="arm_1_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -25,7 +25,7 @@
 
 <gazebo reference="cover_1_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -34,7 +34,7 @@
 
 <gazebo reference="straight_connector_1_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -43,7 +43,7 @@
 
 <gazebo reference="clip_connector_1_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -52,7 +52,7 @@
 
 <gazebo reference="base_2_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -61,7 +61,7 @@
 
 <gazebo reference="cover_2_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -70,7 +70,7 @@
 
 <gazebo reference="arm_2_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -79,7 +79,7 @@
 
 <gazebo reference="straight_connector_2_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -88,7 +88,7 @@
 
 <gazebo reference="clip_connector_2_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -97,7 +97,7 @@
 
 <gazebo reference="base_3_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -106,7 +106,7 @@
 
 <gazebo reference="cover_3_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -115,7 +115,7 @@
 
 <gazebo reference="arm_3_1">
   <material>${body_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -124,7 +124,7 @@
 
 <gazebo reference="motor_box_1">
   <material>${motor_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -133,7 +133,7 @@
 
 <gazebo reference="motor_box_2">
   <material>${motor_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>
@@ -142,7 +142,7 @@
 
 <gazebo reference="motor_box_3">
   <material>${motor_color}</material>
-  <kp>1000000000.0</kp>
+  <kp>100000.0</kp>
   <kd>1.0</kd>
   <mu1>20.0</mu1>
   <mu2>20.0</mu2>

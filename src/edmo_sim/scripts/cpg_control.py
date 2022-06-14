@@ -3,8 +3,8 @@ import rospy
 from std_msgs.msg import Float64
 import math
 
-SERVOMIN = [-1.57, -1.57, -1.57]
-SERVOMAX = [1.57, 1.57, 1.57]
+SERVOMIN = [-1.70, -1.70, -1.47]
+SERVOMAX = [1.70, 1.70, 1.60]
 
 def constrain(n, minn, maxn):
     return max(min(maxn, n), minn)
@@ -29,10 +29,13 @@ class Oscillator:
         self.phaseBias = [0, 0, 0]         # controls pairwise coupling phase bias
         if motor_num == 0:                 # controls topology of the network
             self.coupling = [0, 1, 0]
+            self.calib = 8
         elif motor_num == 1:
             self.coupling = [1, 0, 1]
+            self.calib = 2
         else:
             self.coupling = [0, 1, 0]
+            self.calib = 0
         self.angle_motor = 0               # mapped motor value
 
     def update_oscillator(self, targetAmplitude, targetOffset, phaseBias, convert=True):
@@ -121,6 +124,7 @@ class CPGController:
 
                 # set motor to new position
                 # print(self.osc[i].pos)
+                self.osc[i].pos += self.osc[i].calib
                 self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 # print(self.osc[i].angle_motor)
