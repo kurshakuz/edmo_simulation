@@ -4,16 +4,40 @@ from std_msgs.msg import Float64
 from nav_msgs.msg import Odometry
 import math
 import json
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 from cpg_control import SERVOMIN, SERVOMAX, constrain, map_range, Oscillator, CPGController
 from core.SimulatorServerConnector import SimulatorServerConnector
+
+def euclidean_distance(x1: int, x2: int, y1: int, y2: int) -> float:
+    
+    return np.linalg.norm(np.array((x1, y1)) - np.array((x2, y2)))
+
+
+def estimate_speed_regression(checkpoint_distances: list, elapsed_time: float) -> float:
+
+    linear = LinearRegression()
+    linear.fit(np.array(range(len(checkpoint_distances))).reshape(-1, 1), np.array(checkpoint_distances))
+
+    speed = linear.coef_[0] * len(checkpoint_distances) / elapsed_time
+
+    return speed
+
+def convert_coords_to_distances(x_coords, y_coords):
+    x_origin = x_coords[0]
+    y_origin = y_coords[0]
+    checkpoint_distances = []
+    for i in range(1, len(x_coords)):
+        checkpoint_distances.append(euclidean_distance(x_coords[i], x_origin, y_coords[i], y_origin))
+    return checkpoint_distances
 
 class CPGControllerConnected(CPGController):
     def __init__(self, node_name, pub_topic_1, pub_topic_2, pub_topic_3):
         super().__init__(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
-        self.connector.connect(host='localhost')
+        self.connector.connect(host='192.168.114.222')
         self.received_json = False
         self.recording_state = False
         self.finished_recording = False
@@ -47,6 +71,10 @@ class CPGControllerConnected(CPGController):
             # self.connector.respond_result()
             print(self.x_positions)
             print(self.y_positions)
+            checkpoint_distances = convert_coords_to_distances(self.x_positions, self.y_positions)
+            result = estimate_speed_regression(checkpoint_distances, 10)
+            self.connector.respond_result(self.sim_task_id, result)
+            print('Returned fitness: ', result)
             self.finished_recording = False
 
     def publish_positions(self):
@@ -100,6 +128,7 @@ class CPGControllerConnected(CPGController):
 
                 # set motor to new position
                 # print(self.osc[i].pos)
+                self.osc[i].pos += self.osc[i].calib
                 self.osc[i].angle_motor = map_range(self.osc[i].pos, 0, 180, SERVOMIN[i], SERVOMAX[i])
                 self.osc[i].angle_motor = constrain(self.osc[i].angle_motor, SERVOMIN[i], SERVOMAX[i])
                 # print(self.osc[i].angle_motor)
