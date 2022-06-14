@@ -10,18 +10,16 @@ import numpy as np
 from cpg_control import SERVOMIN, SERVOMAX, constrain, map_range, Oscillator, CPGController
 from core.SimulatorServerConnector import SimulatorServerConnector
 
+recording_time = 20
+
 def euclidean_distance(x1: int, x2: int, y1: int, y2: int) -> float:
-    
     return np.linalg.norm(np.array((x1, y1)) - np.array((x2, y2)))
 
 
 def estimate_speed_regression(checkpoint_distances: list, elapsed_time: float) -> float:
-
     linear = LinearRegression()
     linear.fit(np.array(range(len(checkpoint_distances))).reshape(-1, 1), np.array(checkpoint_distances))
-
     speed = linear.coef_[0] * len(checkpoint_distances) / elapsed_time
-
     return speed
 
 def convert_coords_to_distances(x_coords, y_coords):
@@ -37,7 +35,8 @@ class CPGControllerConnected(CPGController):
         super().__init__(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
-        self.connector.connect(host='192.168.114.222')
+        # 192.168.114.222
+        self.connector.connect(host='localhost')
         self.received_json = False
         self.recording_state = False
         self.finished_recording = False
@@ -54,7 +53,7 @@ class CPGControllerConnected(CPGController):
             targetOffsets.append(msg['modules'][i]['offset'])
         self.update_controller(msg['frequency'], msg['weight'], targetAmplitudes, targetOffsets, msg['phase_bias_matrix'])
         self.last_received_time = rospy.get_time()
-        print(self.last_received_time)
+        print('Received command at second: ', self.last_received_time)
 
         self.received_json = True
         self.recording_state = True
@@ -68,30 +67,18 @@ class CPGControllerConnected(CPGController):
             self.x_positions.append(data.pose.pose.position.x)
             self.y_positions.append(data.pose.pose.position.y)
         if not self.recording_state and self.finished_recording:
-            # self.connector.respond_result()
-            print(self.x_positions)
-            print(self.y_positions)
             checkpoint_distances = convert_coords_to_distances(self.x_positions, self.y_positions)
-            result = estimate_speed_regression(checkpoint_distances, 10)
+            result = estimate_speed_regression(checkpoint_distances, recording_time) * 100
             self.connector.respond_result(self.sim_task_id, result)
+            print('Returned command at second: ', rospy.get_time())
             print('Returned fitness: ', result)
             self.finished_recording = False
 
     def publish_positions(self):
-        # sample configuration
-        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-
-        # fastest configuration
-        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-
-        # zero position
-        # self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
-        # self.received_json = True
-
         while not rospy.is_shutdown():
             if self.received_json:
                 current_time = rospy.get_time()
-                if current_time - (self.last_received_time + 10) >= 0:
+                if current_time - (self.last_received_time + recording_time) >= 0:
                     print('10 secs passed')
                     self.received_json = False
                     self.recording_state = False

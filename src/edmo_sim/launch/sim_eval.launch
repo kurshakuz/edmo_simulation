@@ -1,5 +1,5 @@
 <launch>
-    <arg name="world_name" value="$(find edmo_sim)/worlds/empty.world"/>
+    <arg name="world_name" value="$(find edmo_sim)/worlds/empty_accelerated.world"/>
     <arg name="robot_1" value="edmo1" />
     <arg name="robot_2" value="edmo2" />
 
