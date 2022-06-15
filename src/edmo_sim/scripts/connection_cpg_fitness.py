@@ -35,6 +35,7 @@ class CPGControllerConnected(CPGController):
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
         host = '192.168.114.222'
+        # host = 'localhost'
         self.connector.connect(host=host)
         rospy.loginfo(f'Connected to host {host}')
         self.received_json = False

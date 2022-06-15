@@ -16,10 +16,6 @@
         <include file="$(find edmo_sim)/launch/init_snake.launch">
             <arg name="prefix" value="$(arg robot_1)" />
         </include>
-
-        <node name="connection_cpg_fitness" pkg="edmo_sim" type="connection_cpg_fitness.py">
-            <remap from="clock" to="/$(arg robot_1)_clock"/> 
-        </node>
     </group>
 
     <!-- <group ns="$(arg robot_2)">
@@ -34,10 +30,5 @@
         <include file="$(find edmo_sim)/launch/init_snake.launch">
             <arg name="prefix" value="$(arg robot_2)" />
         </include>
-
-        <node name="connection_cpg_fitness" pkg="edmo_sim" type="connection_cpg_fitness.py">
-            <remap from="clock" to="/$(arg robot_2)_clock"/> 
-        </node>
-
     </group> -->
 </launch>

@@ -12,7 +12,10 @@ class CPGControllerConnected(CPGController):
         super().__init__(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
-        self.connector.connect()
+        host = '192.168.114.222'
+        # host = 'localhost'
+        self.connector.connect(host=host)
+        rospy.loginfo(f'Connected to host {host}')
         self.received_json = False
 
     def update_from_json(self, msg):
@@ -24,19 +27,10 @@ class CPGControllerConnected(CPGController):
             targetAmplitudes.append(msg['modules'][i]['amplitude'])
             targetOffsets.append(msg['modules'][i]['offset'])
         self.update_controller(msg['frequency'], msg['weight'], targetAmplitudes, targetOffsets, msg['phase_bias_matrix'])
+        # respond fake fitness result
+        self.connector.respond_result(msg['sim_task_id'], 1)
 
     def publish_positions(self):
-        # sample configuration
-        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[34,0,-45], phaseBiases=[[0.0, 42.0, 0.0], [-42.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-
-        # fastest configuration
-        # self.update_controller(freq = 0.37, weight = 0.025, targetAmplitudes = [31,18,34], targetOffsets=[64,0,58], phaseBiases=[[0.0, 90.0, 0.0], [-90.0, 0.0, 34.0], [0.0, -34.0, 0.0]])
-
-        # zero position
-        # self.update_controller(freq = 0.25, weight = 0.025, targetAmplitudes = [0,0,0], targetOffsets=[0,0,0], phaseBiases=[[0.0, 1.0, 0.0], [1.0, 0.0, 1.0], [0.0, 1.0, 0.0]], convert=False)
-
-        # self.received_json = True
-
         while not rospy.is_shutdown():
             rateOfFrequency = self.c * (self.targetFrequency - self.frequency)
             self.frequency = self.frequency + rateOfFrequency * (self.timeStep) / 1000.0
