@@ -15,7 +15,6 @@ recording_time = 20
 def euclidean_distance(x1: int, x2: int, y1: int, y2: int) -> float:
     return np.linalg.norm(np.array((x1, y1)) - np.array((x2, y2)))
 
-
 def estimate_speed_regression(checkpoint_distances: list, elapsed_time: float) -> float:
     linear = LinearRegression()
     linear.fit(np.array(range(len(checkpoint_distances))).reshape(-1, 1), np.array(checkpoint_distances))
@@ -35,8 +34,9 @@ class CPGControllerConnected(CPGController):
         super().__init__(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
         self.connector = SimulatorServerConnector()
         self.connector.register_rcv_listener(self.update_from_json)
-        # 192.168.114.222
-        self.connector.connect(host='localhost')
+        host = '192.168.114.222'
+        self.connector.connect(host=host)
+        rospy.loginfo(f'Connected to host {host}')
         self.received_json = False
         self.recording_state = False
         self.finished_recording = False
@@ -45,7 +45,7 @@ class CPGControllerConnected(CPGController):
 
     def update_from_json(self, msg):
         # TODO remove received_json
-        print('Received JSON input from ', msg['name'])
+        rospy.loginfo(f'Received JSON input from {msg["name"]}')
         targetAmplitudes = []
         targetOffsets = []
         for i in range(len(msg['modules'])):
@@ -53,7 +53,7 @@ class CPGControllerConnected(CPGController):
             targetOffsets.append(msg['modules'][i]['offset'])
         self.update_controller(msg['frequency'], msg['weight'], targetAmplitudes, targetOffsets, msg['phase_bias_matrix'])
         self.last_received_time = rospy.get_time()
-        print('Received command at second: ', self.last_received_time)
+        rospy.loginfo(f'Received command at second: {self.last_received_time}')
 
         self.received_json = True
         self.recording_state = True
@@ -70,8 +70,8 @@ class CPGControllerConnected(CPGController):
             checkpoint_distances = convert_coords_to_distances(self.x_positions, self.y_positions)
             result = estimate_speed_regression(checkpoint_distances, recording_time) * 100
             self.connector.respond_result(self.sim_task_id, result)
-            print('Returned command at second: ', rospy.get_time())
-            print('Returned fitness: ', result)
+            rospy.loginfo(f'Returned command at second: {rospy.get_time()}')
+            rospy.loginfo(f'Returned fitness: {result}')
             self.finished_recording = False
 
     def publish_positions(self):
@@ -79,7 +79,7 @@ class CPGControllerConnected(CPGController):
             if self.received_json:
                 current_time = rospy.get_time()
                 if current_time - (self.last_received_time + recording_time) >= 0:
-                    print('10 secs passed')
+                    rospy.loginfo('10 secs passed')
                     self.received_json = False
                     self.recording_state = False
                     self.finished_recording = True
