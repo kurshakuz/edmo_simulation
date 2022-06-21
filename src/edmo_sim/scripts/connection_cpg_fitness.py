@@ -21,11 +21,15 @@ def estimate_speed_regression(checkpoint_distances: list, elapsed_time: float) -
     speed = linear.coef_[0] * len(checkpoint_distances) / elapsed_time
     return speed
 
+def estimate_speed_end2end(first_dist, last_dist, elapsed_time):
+    speed = (last_dist - first_dist) / elapsed_time
+    return speed
+
 def convert_coords_to_distances(x_coords, y_coords):
     x_origin = x_coords[0]
     y_origin = y_coords[0]
     checkpoint_distances = []
-    for i in range(1, len(x_coords)):
+    for i in range(0, len(x_coords)):
         checkpoint_distances.append(euclidean_distance(x_coords[i], x_origin, y_coords[i], y_origin))
     return checkpoint_distances
 
@@ -70,6 +74,7 @@ class CPGControllerConnected(CPGController):
         if not self.recording_state and self.finished_recording:
             checkpoint_distances = convert_coords_to_distances(self.x_positions, self.y_positions)
             result = estimate_speed_regression(checkpoint_distances, recording_time) * 100
+            # result = estimate_speed_end2end(checkpoint_distances[0], checkpoint_distances[len(checkpoint_distances)-1], recording_time) * 100
             self.connector.respond_result(self.sim_task_id, result)
             rospy.loginfo(f'Returned command at second: {rospy.get_time()}')
             rospy.loginfo(f'Returned fitness: {result}')
