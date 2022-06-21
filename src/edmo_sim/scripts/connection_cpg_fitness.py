@@ -19,6 +19,7 @@ def estimate_speed_regression(checkpoint_distances: list, elapsed_time: float) -
     linear = LinearRegression()
     linear.fit(np.array(range(len(checkpoint_distances))).reshape(-1, 1), np.array(checkpoint_distances))
     speed = linear.coef_[0] * len(checkpoint_distances) / elapsed_time
+    speed = np.clip(speed, 0.0, None)
     return speed
 
 def estimate_speed_end2end(first_dist, last_dist, elapsed_time):
