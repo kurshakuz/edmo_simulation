@@ -86,5 +86,4 @@ if __name__ == '__main__':
     try:
         controller.publish_positions()
     except rospy.ROSInterruptException:
-        # controller.connector
         pass

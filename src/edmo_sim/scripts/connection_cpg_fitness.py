@@ -50,7 +50,6 @@ class CPGControllerConnected(CPGController):
         self.sim_task_id = 0
 
     def update_from_json(self, msg):
-        # TODO remove received_json
         rospy.loginfo(f'Received JSON input from {msg["name"]}')
         targetAmplitudes = []
         targetOffsets = []
@@ -145,7 +144,7 @@ if __name__ == '__main__':
     controller = CPGControllerConnected(node_name, pub_topic_1, pub_topic_2, pub_topic_3)
     rospy.Subscriber('edmo_snake/state', Odometry, controller.positionCallback)
     try:
+        rospy.loginfo(f'Starting at: {rospy.get_time()}')
         controller.publish_positions()
     except rospy.ROSInterruptException:
-        # controller.connector
         pass
